@@ -1,0 +1,104 @@
+/* Triệt tiêu các khung card bọc ngoài rườm rà của Jedison */
+.custom-jedison-wrapper .card {
+	border: none !important;
+	box-shadow: none !important;
+	background: transparent !important;
+	padding: 0 !important;
+	margin-bottom: 0 !important;
+}
+
+.custom-jedison-wrapper .card-header {
+	background: transparent !important;
+	border-bottom: none !important;
+	padding: 0 0 0.75rem 0 !important;
+	font-weight: 700 !important;
+	font-size: 0.85rem !important;
+	color: #475569 !important;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.custom-jedison-wrapper .card-body {
+	padding: 0 !important;
+}
+
+/* Biến các item trong mảng thành khối phẳng, sạch sẽ */
+.custom-jedison-wrapper .card .card {
+	background-color: #f8fafc !important;
+	border-radius: 1rem !important;
+	border: 1px solid #e2e8f0 !important;
+	padding: 1.25rem !important;
+	margin-top: 0.75rem !important;
+	margin-bottom: 0.75rem !important;
+	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.01) !important;
+}
+
+/* Tùy chỉnh input form gọn gàng */
+.custom-jedison-wrapper input.form-control {
+	border-radius: 0.75rem !important;
+	padding: 0.6rem 0.875rem !important;
+	font-size: 0.875rem !important;
+	border-color: #cbd5e1 !important;
+	background-color: #ffffff !important;
+}
+
+.custom-jedison-wrapper input.form-control:focus {
+	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12) !important;
+	border-color: #3b82f6 !important;
+}
+
+/* Dropdown chọn true/false của trường active */
+.custom-jedison-wrapper select.form-select {
+	border-radius: 0.75rem !important;
+	padding: 0.6rem 0.875rem !important;
+	font-size: 0.875rem !important;
+	border-color: #cbd5e1 !important;
+	background-color: #ffffff !important;
+}
+
+.custom-jedison-wrapper button.btn {
+	border-radius: 0.6rem !important;
+	font-size: 0.75rem !important;
+	padding: 0.35rem 0.75rem !important;
+	font-weight: 500 !important;
+}
+/* Ẩn hoàn toàn thanh tiêu đề legend của các khối Jedison */
+.jedi-editor-legend {
+	display: none !important;
+}
+/* 1. Chỉ ẩn thanh legend ở cấp độ gốc (chứa dấu # phiền toái) */
+div[data-level='0'] > fieldset > legend.jedi-editor-legend {
+	display: none !important;
+}
+
+/* 2. Giữ lại và làm đẹp tiêu đề cho các mảng con (Base Layers, Overlays) */
+.custom-jedison-wrapper .jedi-editor-legend-left {
+	display: block !important;
+	font-weight: 700 !important;
+	color: #475569 !important;
+	text-transform: uppercase;
+	font-size: 1.25rem !important;
+	letter-spacing: 0.05em;
+}
+
+/* 3. Căn chỉnh lại thanh legend con cho gọn gàng, nút bấm nằm bên phải */
+.custom-jedison-wrapper .jedi-editor-legend {
+	background: transparent !important;
+	border: none !important;
+	padding: 0 0 0.5rem 0 !important;
+	align-items: center !important;
+}
+
+/* Tắt hoàn toàn chữ in hoa trên toàn bộ các thành phần của Jedison và Bootstrap */
+legend,
+.jedi-editor-legend,
+fieldset legend,
+.card-header,
+h3,
+h4,
+h5,
+h6,
+[class*='header'],
+[class*='title'] {
+	text-transform: none !important;
+}
