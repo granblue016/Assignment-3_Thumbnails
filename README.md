@@ -31,7 +31,7 @@ npm run preview
 
 ## Deploy lên Netlify
 
-Netlify dùng `@sveltejs/adapter-netlify` trong cấu hình SvelteKit ở `vite.config.js`; `netlify.toml` đã đặt lệnh build và thư mục xuất bản. Kết nối repository với Netlify, chọn Node.js 22 trở lên, sau đó đặt `STORAGE_DRIVER=netlify-blobs` trong **Site configuration → Environment variables**. Netlify Blobs lưu bền vững dữ liệu cấu hình và thumbnail mà không cần S3 keys. Dùng cùng `BLOBS_STORE_NAME` giữa các deploy để giữ chung kho dữ liệu.
+Netlify dùng `@sveltejs/adapter-netlify` trong cấu hình SvelteKit ở `vite.config.js`; `netlify.toml` đặt lệnh build, thư mục xuất bản và `STORAGE_DRIVER=netlify-blobs`. Khi chạy trong Netlify Functions, ứng dụng luôn chọn Netlify Blobs (trừ khi đặt rõ `STORAGE_DRIVER=minio`); vì vậy biến `STORAGE_DRIVER=filesystem` trong cấu hình deploy sẽ không làm ứng dụng ghi vào thư mục chỉ đọc `/var/task`. Netlify Blobs lưu bền vững dữ liệu cấu hình và thumbnail mà không cần S3 keys. Dùng cùng `BLOBS_STORE_NAME` giữa các deploy để giữ chung kho dữ liệu.
 
 Các lựa chọn backend:
 

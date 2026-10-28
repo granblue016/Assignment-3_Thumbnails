@@ -5,7 +5,15 @@ import path from 'node:path';
 
 const env = process.env;
 export const BUCKET_NAME = env.MINIO_BUCKET || 'map-configs';
-export const STORAGE_DRIVER = env.STORAGE_DRIVER || (env.NETLIFY ? 'netlify-blobs' : 'filesystem');
+const isNetlify =
+	env.NETLIFY === 'true' ||
+	env.NETLIFY === '1' ||
+	Boolean(env.LAMBDA_TASK_ROOT || env.AWS_LAMBDA_FUNCTION_NAME);
+export const STORAGE_DRIVER = isNetlify
+	? env.STORAGE_DRIVER === 'minio'
+		? 'minio'
+		: 'netlify-blobs'
+	: env.STORAGE_DRIVER || 'filesystem';
 
 export function getStorageDriver() {
 	return getDriver();
