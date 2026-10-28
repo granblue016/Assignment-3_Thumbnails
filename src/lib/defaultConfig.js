@@ -21,6 +21,11 @@ export const defaultMapConfig = {
 			"name": "testing",
 			"layerUrl": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
 			"thumbnailUrl": "http://localhost:5173/api/thumbnails/testing-1793175747658.jpg"
+		},
+		{
+			"name": "testing2",
+			"layerUrl": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+			"thumbnailUrl": "http://localhost:5173/api/thumbnails/testing-1793175747658.jpg"
 		}
 	],
 	overlays: [
