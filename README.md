@@ -31,7 +31,7 @@ npm run preview
 
 ## Deploy lên Netlify
 
-Netlify dùng `@sveltejs/adapter-netlify` trong cấu hình SvelteKit ở `vite.config.js`; `netlify.toml` đặt lệnh build, thư mục xuất bản và `STORAGE_DRIVER=netlify-blobs`. Khi chạy trong Netlify Functions, ứng dụng luôn chọn Netlify Blobs (trừ khi đặt rõ `STORAGE_DRIVER=minio`); vì vậy biến `STORAGE_DRIVER=filesystem` trong cấu hình deploy sẽ không làm ứng dụng ghi vào thư mục chỉ đọc `/var/task`. Netlify Blobs lưu bền vững dữ liệu cấu hình và thumbnail mà không cần S3 keys. Dùng cùng `BLOBS_STORE_NAME` giữa các deploy để giữ chung kho dữ liệu.
+Netlify dùng `@sveltejs/adapter-netlify` trong cấu hình SvelteKit ở `vite.config.js`; `netlify.toml` đặt lệnh build, thư mục xuất bản và `STORAGE_DRIVER=netlify-blobs`. Khi chạy trong Netlify Functions, ứng dụng luôn chọn Netlify Blobs (trừ khi đặt rõ `STORAGE_DRIVER=minio`); vì vậy biến `STORAGE_DRIVER=filesystem` trong cấu hình deploy sẽ không làm ứng dụng ghi vào thư mục chỉ đọc `/var/task`. Netlify Blobs được khởi tạo với strong consistency để việc đọc danh sách/cấu hình ngay sau khi lưu không bị dữ liệu cũ. Dùng cùng `BLOBS_STORE_NAME` giữa các deploy để giữ chung kho dữ liệu.
 
 Các lựa chọn backend:
 
@@ -41,7 +41,7 @@ Các lựa chọn backend:
 | `netlify-blobs`  | Netlify deployment           | Dùng Netlify Blobs, không yêu cầu credentials MinIO. `BLOBS_STORE_NAME` chọn tên kho (mặc định `map-configs`); `BLOBS_REGION` là tùy chọn. |
 | `minio`          | Local hoặc deploy            | Cần endpoint, port, SSL, region, access key, secret key và bucket MinIO hợp lệ.                                                            |
 
-Khi dùng MinIO, khai báo `MINIO_ENDPOINT`, `MINIO_PORT`, `MINIO_USE_SSL`, `MINIO_REGION`, `MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY`, `MINIO_BUCKET` và, nếu cần URL ảnh truy cập công khai, `MINIO_PUBLIC_URL`. Tạo bucket trước khi dùng. Với backend filesystem/Netlify Blobs, thumbnail được phục vụ qua API của ứng dụng; với MinIO, ứng dụng trả URL object theo cấu hình MinIO.
+Khi dùng MinIO, khai báo `MINIO_ENDPOINT`, `MINIO_PORT`, `MINIO_USE_SSL`, `MINIO_REGION`, `MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY` và `MINIO_BUCKET`. Tạo bucket trước khi dùng. Thumbnail từ mọi backend được truy cập qua đường dẫn cùng origin `/api/thumbnails/<filename>`; link cũ chứa `localhost` được chuẩn hóa khi đọc/lưu cấu hình để không gây Mixed Content trên HTTPS.
 
 Từ `/admin/configs`, nếu bucket chưa có cấu hình, chọn **Tạo cấu hình hcm-map** để tạo cấu hình khởi đầu; nội dung mẫu không còn chiếm chỗ trong trang danh sách. Cấu hình mới được sao chép từ mẫu và chỉnh sửa bằng JSON Editor sau khi tạo. Dữ liệu lưu tại `configs/<key>.json`. Có thể sửa tại `/admin/configs/<key>`, xem bản đồ động tại `/map/<key>`, hoặc mở JSON API tại `/api/config/<key>`. API cấu hình trả về JSON cấu hình; API danh sách trả về các trường `key`, `title`, `updatedAt`, `status`.
 

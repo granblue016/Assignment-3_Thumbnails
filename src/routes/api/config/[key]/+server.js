@@ -6,7 +6,7 @@ import {
 	listObjects,
 	putObject
 } from '#lib/storage';
-import { isMapConfig } from '#lib/configValidation';
+import { isMapConfig, normalizeThumbnailUrls } from '#lib/configValidation';
 
 const corsHeaders = {
 	'Access-Control-Allow-Origin': '*',
@@ -39,7 +39,9 @@ export async function GET({ params }) {
 				{ status: 404, headers: corsHeaders }
 			);
 		}
-		const config = JSON.parse((await getObject(objectName)).toString('utf8'));
+		const config = normalizeThumbnailUrls(
+			JSON.parse((await getObject(objectName)).toString('utf8'))
+		);
 		if (!isMapConfig(config)) {
 			throw new Error(`Cấu hình ${objectName} không đúng định dạng.`);
 		}
@@ -83,7 +85,7 @@ export async function PUT({ request, params }) {
 			);
 		}
 
-		const body = await request.json();
+		const body = normalizeThumbnailUrls(await request.json());
 		if (!isMapConfig(body)) {
 			return json(
 				{ success: false, error: 'Dữ liệu cấu hình không hợp lệ' },

@@ -46,3 +46,29 @@ export function isMapConfig(value) {
 		(config.status === undefined || config.status === 'active' || config.status === 'inactive')
 	);
 }
+
+/**
+ * Convert old absolute app URLs to same-origin API paths so saved configs work
+ * after moving from local development to production.
+ * @param {Record<string, any>} config
+ */
+export function normalizeThumbnailUrls(config) {
+	if (!Array.isArray(config?.baseLayers)) return config;
+
+	return {
+		...config,
+		baseLayers: config.baseLayers.map((layer) => {
+			if (typeof layer.thumbnailUrl !== 'string') return layer;
+			try {
+				const url = new URL(layer.thumbnailUrl);
+				const match = /\/api\/thumbnails\/([^/]+)$/.exec(url.pathname);
+				if (match && /^https?:$/.test(url.protocol)) {
+					return { ...layer, thumbnailUrl: `/api/thumbnails/${match[1]}` };
+				}
+			} catch {
+				// Relative URLs are already suitable for the current host.
+			}
+			return layer;
+		})
+	};
+}

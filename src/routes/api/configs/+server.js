@@ -8,7 +8,7 @@ import {
 	putObject
 } from '#lib/storage';
 import { defaultMapConfig } from '#lib/defaultConfig';
-import { isMapConfig } from '#lib/configValidation';
+import { isMapConfig, normalizeThumbnailUrls } from '#lib/configValidation';
 
 const corsHeaders = {
 	'Access-Control-Allow-Origin': '*',
@@ -85,7 +85,7 @@ export async function POST({ request }) {
 			}
 		}
 
-		const config = body.config ?? defaultMapConfig;
+		const config = normalizeThumbnailUrls(body.config ?? defaultMapConfig);
 		if (!isMapConfig(config)) {
 			return json(
 				{ success: false, error: 'Nội dung cấu hình không hợp lệ.' },

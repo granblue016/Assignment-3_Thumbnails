@@ -16,16 +16,6 @@ export const defaultMapConfig = {
 				'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
 			thumbnailUrl:
 				'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1925/3262.png'
-		},
-		{
-			"name": "testing",
-			"layerUrl": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-			"thumbnailUrl": "http://localhost:5173/api/thumbnails/testing-1793175747658.jpg"
-		},
-		{
-			"name": "testing2",
-			"layerUrl": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-			"thumbnailUrl": "http://localhost:5173/api/thumbnails/testing-1793175747658.jpg"
 		}
 	],
 	overlays: [

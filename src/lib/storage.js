@@ -81,7 +81,6 @@ function getMinioClient() {
 function getBlobStore() {
 	const name = env.BLOBS_STORE_NAME || BUCKET_NAME;
 	const region = env.BLOBS_REGION;
-	if (!region) return getStore(name);
 	const supportedRegions = [
 		'us-east-1',
 		'us-east-2',
@@ -89,12 +88,15 @@ function getBlobStore() {
 		'ap-southeast-1',
 		'ap-southeast-2'
 	];
-	if (!supportedRegions.includes(region)) {
+	if (region && !supportedRegions.includes(region)) {
 		throw new Error(`BLOBS_REGION không hợp lệ: "${region}".`);
 	}
 	return getStore({
 		name,
-		region: /** @type {import('@netlify/blobs').GetStoreOptions['region']} */ (region)
+		consistency: 'strong',
+		...(region && {
+			region: /** @type {import('@netlify/blobs').GetStoreOptions['region']} */ (region)
+		})
 	});
 }
 
@@ -235,13 +237,5 @@ export function getStorageErrorMessage(error) {
 
 /** @param {string} filename */
 export function getThumbnailUrl(filename) {
-	if (getDriver() === 'minio') {
-		const useSSL = env.MINIO_USE_SSL === 'true';
-		const port = Number(env.MINIO_PORT || (useSSL ? 443 : 9000));
-		const origin =
-			env.MINIO_PUBLIC_URL || `${useSSL ? 'https' : 'http'}://${env.MINIO_ENDPOINT}:${port}`;
-		const encodedName = `thumbnails/${filename}`.split('/').map(encodeURIComponent).join('/');
-		return `${origin.replace(/\/+$/, '')}/${encodeURIComponent(BUCKET_NAME)}/${encodedName}`;
-	}
 	return `/api/thumbnails/${encodeURIComponent(filename)}`;
 }
