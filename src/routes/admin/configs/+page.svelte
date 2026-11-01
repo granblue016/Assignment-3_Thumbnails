@@ -244,10 +244,10 @@
 									</span>
 								</td>
 								<td>
-									<a
+									<!-- <a
 										href={resolve('/map/[key]', { key: cfg.key })}
 										class="btn btn-sm btn-outline-success me-1">Xem bản đồ</a
-									>
+									> -->
 									<a
 										href={resolve('/api/config/[key]', { key: cfg.key })}
 										target="_blank"
